@@ -1,0 +1,19 @@
+# Ignorar todos os arquivos
+*
+
+# Não ignorar pastas
+!*/
+
+# Não ignorar arquivos VHDL
+!*.vhd
+!*.vhdl
+
+# Não ignorar documentos PDF
+!*.pdf
+
+# Não ignorar imagens
+!*.png
+!*.jpg
+!*.jpeg
+
+!*.md
