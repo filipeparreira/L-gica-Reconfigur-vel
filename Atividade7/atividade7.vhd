@@ -19,8 +19,17 @@ begin
 		variable segundos: integer range 0 to 9999;
 		variable contador: integer range 0 to f_clk'high;
 	begin
+		-- Verifica a borda de subida do clock
 		if rising_edge(clk) then 
+			-- Enquanto o contador for menor que o clock (conta 1 segundo)
 			if contador < f_clk then 
 				contador := contador + 1;
-
+			-- Completou 1 segundo
+			elsif segundos = 9999 then
+				segundos := 0;
+				contador:= 0;
+			else
+				segundos := segundos + 1;
+				contador := 0;				
+			end if;
 end main;
