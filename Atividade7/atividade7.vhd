@@ -1,5 +1,6 @@
 library ieee;
-use ieee.std_logic_1164;
+use ieee.std_logic_1164.all;
+use work.ssd.all;
 
 entity atividade7 is 
 	generic(
@@ -30,6 +31,9 @@ begin
 				contador:= 0;
 			else
 				segundos := segundos + 1;
+				ssd_numbers(segundos, ssd1, ssd2, ssd3, ssd4);
 				contador := 0;				
 			end if;
+		end if;
+	end process;
 end main;
