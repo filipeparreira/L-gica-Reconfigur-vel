@@ -27,9 +27,9 @@ package body ssd is
 	  
 	  unidade := temp;               -- Dígito das unidades
 	  
-	  out1 := conversor(unidade);
-	  out2 := conversor(dezena);
-	  out3 := conversor(centena);
-	  out4 := converor(milhar);
+	  conversor(unidade, out1);
+	  conversor(dezena, out2);
+	  conversor(centena, out3);
+	  conversor(milhar, out4);
 	end ssd_numbers;
 end ssd;
