@@ -16,4 +16,7 @@
 !*.jpg
 !*.jpeg
 
+# Não ignorar o pinPlanner
+!*.qsf
+
 !*.md
