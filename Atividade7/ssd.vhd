@@ -3,7 +3,7 @@ use ieee.std_logic_1164.all;
 use work.bcd.all;
 
 package ssd is 
-	procedure ssd_numbers(variable segundos: in integer range 0 to 9999;
+	procedure ssd_numbers(segundos: in integer range 0 to 9999;
 									signal out1, out2, out3, out4: out std_logic_vector(6 downto 0));
 end ssd;
 
