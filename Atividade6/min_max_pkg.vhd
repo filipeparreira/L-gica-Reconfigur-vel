@@ -1,15 +1,19 @@
+LIBRARY ieee;
+USE ieee.std_logic_1164.all;
+use ieee.numeric_std.all;
+
 PACKAGE min_max_pkg IS 
-	type vetor_inteiros is array (NATURAL range<>) of INTEGER range 0 to 30;
-	PROCEDURE min_max (signal entrada1, entrada2, entrada3, entrada4: in integer range 0 to 30;
-							signal min, max: out INTEGER range 0 to 30);
+	type vetor_inteiros is array (NATURAL range<>) of unsigned(5 downto 0);
+	PROCEDURE min_max (signal entrada1, entrada2, entrada3, entrada4: in unsigned(5 downto 0);
+							signal min, max: out unsigned(5 downto 0));
 	-- procedure min_max (signal vetor_entrada : in vetor_inteiros, signal min, max: out INTEGER);
 end min_max_pkg;
 
 package body min_max_pkg is 
 	
-	procedure min_max (signal entrada1, entrada2, entrada3, entrada4: in integer range 0 to 30;
-							signal min, max: out INTEGER range 0 to 30) is 
-	VARIABLE minAux, maxAux: INTEGER range 0 to 30;
+	procedure min_max (signal entrada1, entrada2, entrada3, entrada4: in unsigned(5 downto 0);
+							signal min, max: out unsigned(5 downto 0)) is 
+	VARIABLE minAux, maxAux: unsigned(5 downto 0);
 	variable vetor_entrada: vetor_inteiros(3 DOWNTO 0);
 	begin 
 		vetor_entrada(0) := entrada1;
