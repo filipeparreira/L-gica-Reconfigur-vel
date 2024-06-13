@@ -21,14 +21,13 @@ begin
 	
 	process(clk, reset, mudar, pause, up, down) 
 		variable segundos, segundos_aux: integer range 0 to 9999 := 0;
-		variable contador, contador_aux, contador_seg: integer range 0 to f_clk'high;
+		variable contador, contador_aux, contador_seg, count_rst: integer range 0 to f_clk'high;
 	begin
 		
 		ssd_numbers_int(segundos, ssd1, ssd2, ssd3, ssd4);
 		
-		if reset = '0' and segundos_aux /= 0 then
-			--segundos := segundos_aux;
-		elsif rising_edge(clk) and mudar = '0' and pause = '1' then
+		
+		if rising_edge(clk) and mudar = '0' and pause = '1' then
 			contador := 0;
 			if contador_aux < f_clk/13 then 
 				contador_aux := contador_aux + 1;
@@ -40,12 +39,14 @@ begin
 				elsif up = '0' and down = '1' and segundos > 0 then
 					segundos := segundos - 1;
 				end if;
+				segundos_aux := segundos;
 			end if;
 		elsif rising_edge(clk) and pause = '0' then
 			contador_aux := 0;
 			if contador = f_clk and segundos > 0 then 
 				segundos := segundos - 1;
 				contador := 0;
+				leds <= (others => '0');
 			else 
 				contador := contador + 1;
 			end if;			
@@ -60,6 +61,12 @@ begin
 			end if;
 		end if;
 		
+		
+		if reset = '0' and rising_edge(clk) then
+			segundos := segundos_aux;
+			contador_aux := 0;
+			contador := 0;
+		end if;
 		/*
 		if reset = '0' then
 			segundos := segundos_aux;
