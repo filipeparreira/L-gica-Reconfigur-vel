@@ -12,9 +12,13 @@ entity atividade7 is
 
 	-- Define as portas (auto descritivas)
 	port(
-		reset, pause, up, down: in bit;
-		clk, mudar: in std_logic;
+		-- Switches
+		pause, up, down: in bit;
+		-- Clock e Push Button
+		clk, mudar, reset: in std_logic;
+		-- SSDs
 		ssd1, ssd2, ssd3, ssd4: out std_logic_vector(6 DOWNTO 0);
+		-- LEDS
 		leds: out std_logic_vector(9 DOWNTO 0)
 	);
 end atividade7;
