@@ -4,8 +4,9 @@ use ieee.std_logic_1164.all;
 ----------------------------------------------------------
 entity atividade8 is
     port(
-        teste, clk, rst: in std_logic;
-		  sem1, sem2: out std_logic_vector(2 downto 0));
+        standby, clk, rst, teste: in std_logic;
+		  sem1, sem2: out std_logic_vector(2 downto 0);
+		  zeros: out std_logic_vector(3 downto 0));
 end entity;
 ----------------------------------------------------------
 architecture main of atividade8 is
@@ -19,16 +20,18 @@ architecture main of atividade8 is
     constant T1: natural := 100_000_000; -- 120 ms com clock de 50 MHz
     constant T2: natural := 50_000_000; -- 35 ms com clock de 50 MHz
 	 constant T3: natural := 250_000_000;
-	 constant T4: natural := 150_000_000;
-    constant tmax: natural := T1-1;  -- tmax >= max(T1, T2) - 1
+	 constant T4: natural := 100_000_000;
+    constant tmax: natural := T3-1;  -- tmax >= max(T1, T2) - 1
     signal t: natural range 0 to tmax;
     
 begin
-
+	 zeros <= "0000";
     -- Timer
-    process (clk)
+    process (clk, rst)
     begin
-        if rising_edge(clk) then
+		  if rst = '0' then
+				t <= 0;
+        elsif rising_edge(clk) then
             if pr_state /= nx_state then
                 t <= 0;
             elsif t /= tmax then
@@ -42,7 +45,7 @@ begin
     begin
 		  if rst = '0' then
 				pr_state <= VerdeVermelho;
-		  elsif teste = '1' then
+		  elsif standby = '0' then
 				pr_state <= StandbyAceso;
         elsif rising_edge(clk) then
             pr_state <= nx_state;
@@ -56,35 +59,70 @@ begin
             when VerdeVermelho =>
                 sem1 <= "001";
 					 sem2 <= "100";
-                if t >= T1-1 then -- Ou t = T1 - 1
-                    nx_state <= AmareloVermelho;
-                else
-                    nx_state <= VerdeVermelho;
-                end if;
+					 if teste = '1' then
+						 if t >= (T1/2)-1 then -- Ou t = T1 - 1
+							  nx_state <= AmareloVermelho;
+						 else
+							  nx_state <= VerdeVermelho;
+						 end if;
+					 else 
+						 if t >= T1-1 then -- Ou t = T1 - 1
+							  nx_state <= AmareloVermelho;
+						 else
+							  nx_state <= VerdeVermelho;
+						 end if;
+
+					 end if;
             when AmareloVermelho =>
                 sem1 <= "010";
 					 sem2 <= "100";
-                if t >= T2-1 then -- Ou t = T2 - 1
-                    nx_state <= VermelhoVerde;
-                else
-                    nx_state <= AmareloVermelho;
-                end if;
+					 
+					 if teste = '1' then
+							if t >= (T2/2)-1 then -- Ou t = T2 - 1
+								  nx_state <= VermelhoVerde;
+							 else
+								  nx_state <= AmareloVermelho;
+							 end if;
+					 else
+							 if t >= T2-1 then -- Ou t = T2 - 1
+								  nx_state <= VermelhoVerde;
+							 else
+								  nx_state <= AmareloVermelho;
+							 end if;
+					end if;
             when VermelhoVerde =>
                 sem1 <= "100";
 					 sem2 <= "001";
-                if t >= T3-1 then
-                    nx_state <= VermelhoAmarelo;
-                else
-                    nx_state <= VermelhoVerde;
-                end if;
+					 if teste = '1' then
+							if t >= (T3/2)-1 then
+								  nx_state <= VermelhoAmarelo;
+							 else
+								  nx_state <= VermelhoVerde;
+							 end if;
+					 else 
+							 if t >= (T1*2)-1 then
+								  nx_state <= VermelhoAmarelo;
+							 else
+								  nx_state <= VermelhoVerde;
+							 end if;
+					end if;
             when VermelhoAmarelo =>
                 sem1 <= "100";
 					 sem2 <= "010";
-                if t >= T2-1 then
-                    nx_state <= VerdeVermelho;
-                else
-                    nx_state <= VermelhoAmarelo;
-                end if;
+					 
+					 if teste = '1' then
+							if t >= (T2/2)-1 then
+								  nx_state <= VerdeVermelho;
+							 else
+								  nx_state <= VermelhoAmarelo;
+							end if;
+					else 
+						 if t >= T2-1 then
+							  nx_state <= VerdeVermelho;
+						 else
+							  nx_state <= VermelhoAmarelo;
+						 end if;
+					end if;
             when StandbyAceso =>
                 sem1 <= "010";
 					 sem2 <= "010";
